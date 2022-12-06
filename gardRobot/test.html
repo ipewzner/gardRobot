@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    .joystic {
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+        border: 2px solid blue;
+
+        position: absolute;
+        z-index: 9;
+        text-align: center;
+    }
+
+    .joysticDot {
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        display: inline-block;
+
+        position: absolute;
+        padding: 10px;
+        cursor: move;
+        z-index: 10;
+        background-color: #2196F3;
+        color: #fff;
+    }
+</style>
+
+<body>
+
+    <div id="joystic" class="joystic">
+        <div id="joysticDot" class="joysticDot">
+        </div>
+    </div>
+
+    <script>
+        //Make the DIV element draggagle:
+        dragElement(document.getElementById("joysticDot"));
+
+        //get joystick element height and width
+        var joystick = document.getElementById("joystic");
+        var joystickDot = document.getElementById("joysticDot");
+        var joystickHeight = joystick.offsetHeight;
+        var joystickWidth = joystick.offsetWidth;
+        var joystickDotHeight = joystickDot.offsetHeight;
+        var joystickDotWidth = joystickDot.offsetWidth;
+
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id - "Dot")) {
+                /* if present, the header is where you move the DIV from:*/
+                document.getElementById(elmnt.id - "Dot").onmousedown = dragMouseDown;
+            } else {
+                /* otherwise, move the DIV from anywhere inside the DIV:*/
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                // set the element's new position inside the joystick:
+                if (elmnt.offsetTop - pos2 > 0 && elmnt.offsetTop - pos2 < joystickHeight - joystickDotHeight) {
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                }
+                if (elmnt.offsetLeft - pos1 > 0 && elmnt.offsetLeft - pos1 < joystickWidth - joystickDotWidth) {
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                }
+
+                //return the position of the joystick dot in percentage
+                var joystickDotPosition = {
+                    x: (elmnt.offsetLeft / (joystickWidth - joystickDotWidth)) * 100,
+                    y: (elmnt.offsetTop / (joystickHeight - joystickDotHeight)) * 100
+                }
+                console.log(joystickDotPosition);
+                console.log("top: " + elmnt.style.top + " left: " + elmnt.style.left);
+            }
+
+            function closeDragElement() {
+                /* stop moving when mouse button is released:*/
+
+                //return joysticDot to center
+                elmnt.style.top = (joystickHeight / 2 - joystickDotHeight / 2) + "px";
+                elmnt.style.left = (joystickWidth / 2 - joystickDotWidth / 2) + "px";
+
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
+
+
+/*
+/* The image used 
+  background-image: url("http://10.0.0.12:81/stream");
+  background-image: url(""+document.location.origin+ ':81'+"/stream");
+
+/* Full height 
+height: 100%; 
+
+/* Center and scale the image nicely 
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+*/

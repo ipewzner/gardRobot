@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding ="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup Label="Globals" >
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{d0078290-587f-46e7-8ab8-958c6012e6d2}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MPU6050.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)MPU6050_6Axis_MotionApps20.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)MPU6050_6Axis_MotionApps612.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)MPU6050_9Axis_MotionApps41.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)helper_3dmath.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)MPU6050.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)MPU6050_6Axis_MotionApps20.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)MPU6050_6Axis_MotionApps612.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)MPU6050_9Axis_MotionApps41.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)library.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)library.json" />
+  </ItemGroup>
+</Project>

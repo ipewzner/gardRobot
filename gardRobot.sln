@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gardRobot", "gardRobot\gardRobot.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPU6050-0.0.0", "Libraries\MPU6050\0.0.0\MPU6050\MPU6050-0.0.0.vcxitems", "{D0078290-587F-46E7-8AB8-958C6012E6D2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wire-1.0.1", "Libraries\Wire\1.0.1\Wire\Wire-1.0.1.vcxitems", "{5D08D4CB-2C8C-4961-888A-8BE85EBB6060}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PID-1.2.0", "Libraries\PID\1.2.0\PID\PID-1.2.0.vcxitems", "{E914EAD3-1A93-419A-8AEE-964122257691}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "I2Cdev-0.0.0", "Libraries\I2Cdev\0.0.0\I2Cdev\I2Cdev-0.0.0.vcxitems", "{8A833E5B-5002-4862-985E-B0175B5284C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE33648A-84D9-4D59-843A-FEF9279F1288}"
+	ProjectSection(SolutionItems) = preProject
+		gardRobot\index.html = gardRobot\index.html
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP32-1.0", "Libraries\ESP32\1.0\ESP32\ESP32-1.0.vcxitems", "{6305A1E1-20B2-4FB4-9ACB-290593C51468}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebSockets-2.3.6", "Libraries\WebSockets\2.3.6\WebSockets\WebSockets-2.3.6.vcxitems", "{C4541520-8B35-4FF0-95E2-9739D7A2A375}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiFi-1.0", "Libraries\WiFi\1.0\WiFi\WiFi-1.0.vcxitems", "{BA52DA93-D83C-4D0A-979E-A4F8106023F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.ActiveCfg = Debug|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B76430C2-D26E-40CA-BF0F-B748CFF87698}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\Wire\1.0.1\Wire\Wire-1.0.1.vcxitems*{5d08d4cb-2c8c-4961-888a-8be85ebb6060}*SharedItemsImports = 9
+		Libraries\ESP32\1.0\ESP32\ESP32-1.0.vcxitems*{6305a1e1-20b2-4fb4-9acb-290593c51468}*SharedItemsImports = 9
+		Libraries\I2Cdev\0.0.0\I2Cdev\I2Cdev-0.0.0.vcxitems*{8a833e5b-5002-4862-985e-b0175b5284c9}*SharedItemsImports = 9
+		Libraries\WiFi\1.0\WiFi\WiFi-1.0.vcxitems*{ba52da93-d83c-4d0a-979e-a4f8106023f0}*SharedItemsImports = 9
+		Libraries\WebSockets\2.3.6\WebSockets\WebSockets-2.3.6.vcxitems*{c4541520-8b35-4ff0-95e2-9739d7a2a375}*SharedItemsImports = 9
+		Libraries\ESP32\1.0\ESP32\ESP32-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\MPU6050\0.0.0\MPU6050\MPU6050-0.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\WebSockets\2.3.6\WebSockets\WebSockets-2.3.6.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\WiFi\1.0\WiFi\WiFi-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\Wire\1.0.1\Wire\Wire-1.0.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\MPU6050\0.0.0\MPU6050\MPU6050-0.0.0.vcxitems*{d0078290-587f-46e7-8ab8-958c6012e6d2}*SharedItemsImports = 9
+		Libraries\PID\1.2.0\PID\PID-1.2.0.vcxitems*{e914ead3-1a93-419a-8aee-964122257691}*SharedItemsImports = 9
+	EndGlobalSection
+EndGlobal
