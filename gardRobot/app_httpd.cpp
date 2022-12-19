@@ -18,7 +18,7 @@
 #include "esp_camera.h"
 #include "img_converters.h"
 #include "camera_index.h"
-//#include "Arduino.h"
+#include "Arduino.h"
 
 
 #include "fb_gfx.h"
@@ -557,6 +557,7 @@ static esp_err_t cmd_handler(httpd_req_t* req) {
 }
 
 static esp_err_t PID_handler(httpd_req_t* req) {
+	/*
     char* buf;
     size_t buf_len;
     char Kp_val[32] = { 0, };
@@ -573,8 +574,7 @@ static esp_err_t PID_handler(httpd_req_t* req) {
         if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
             if (httpd_query_key_value(buf, "Kp", Kp_val, sizeof(Kp_val)) == ESP_OK &&
                 httpd_query_key_value(buf, "Ki", Ki_val, sizeof(Ki_val)) == ESP_OK &&
-                httpd_query_key_value(buf, "Kd", Kd_val, sizeof(Kd_val)) == ESP_OK) {
-            }
+                httpd_query_key_value(buf, "Kd", Ki_val, sizeof(Kd_val)) == ESP_OK ) {}
             else {
                 free(buf);
                 httpd_resp_send_404(req);
@@ -610,13 +610,13 @@ static esp_err_t PID_handler(httpd_req_t* req) {
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
-}
+	*/
 
-static esp_err_t mpu_handler(httpd_req_t* req) {
     char* buf;
     size_t buf_len;
-    char axis[32] = { 0, };
-   
+    char variable[32] = { 0, };
+    char value[32] = { 0, };
+
     buf_len = httpd_req_get_url_query_len(req) + 1;
     if (buf_len > 1) {
         buf = (char*)malloc(buf_len);
@@ -624,25 +624,177 @@ static esp_err_t mpu_handler(httpd_req_t* req) {
             httpd_resp_send_500(req);
             return ESP_FAIL;
         }
-        if ((httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) ||
-            (httpd_query_key_value(buf, "axis", axis, sizeof(axis)) != ESP_OK )) 
-        {
+        if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
+            if (httpd_query_key_value(buf, "var", variable, sizeof(variable)) == ESP_OK &&
+                httpd_query_key_value(buf, "val", value, sizeof(value)) == ESP_OK) {
+            }
+            else {
                 free(buf);
                 httpd_resp_send_404(req);
                 return ESP_FAIL;
+            }
         }
-       
+        else {
+            free(buf);
+            httpd_resp_send_404(req);
+            return ESP_FAIL;
+        }
         free(buf);
     }
     else {
         httpd_resp_send_404(req);
         return ESP_FAIL;
     }
-    Serial.println("\naxis: "+String(axis));
+
+	double val = atof(value);
+    //int val = atoi(value);
+    int res = 0;
+	
+    if (!strcmp(variable, "Kp")) appControl->setKp(val);
+    else if (!strcmp(variable, "Ki")) appControl->setKi(val);
+    else if (!strcmp(variable, "Kd")) appControl->setKd(val);
+    else if (!strcmp(variable, "setPoint")) appControl->setPIDsetPoint(val);
+    else {res = -1;}
+
+    if (res) { return httpd_resp_send_500(req);}
+
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+    return httpd_resp_send(req, NULL, 0);
+
+}
+
+static esp_err_t motors_handler(httpd_req_t* req) {
+	/*
+    char* buf;
+	size_t buf_len;
+    char reverseA_val[32] = { 0, };
+    char reverseB_val[32] = { 0, };
+
+	buf_len = httpd_req_get_url_query_len(req) + 1;
+	if (buf_len > 1) {
+		buf = (char*)malloc(buf_len);
+		if (!buf) {
+			httpd_resp_send_500(req);
+			return ESP_FAIL;
+		}
+		if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
+			if (httpd_query_key_value(buf, "reverseA", reverseA_val, sizeof(reverseA_val)) == ESP_OK &&
+				httpd_query_key_value(buf, "reverseB", reverseB_val, sizeof(reverseB_val)) == ESP_OK) {
+			}
+			else {
+				free(buf);
+				httpd_resp_send_404(req);
+				return ESP_FAIL;
+			}
+		}
+		else {
+			free(buf);
+			httpd_resp_send_404(req);
+			return ESP_FAIL;
+		}
+		free(buf);
+	}
+	else {
+		httpd_resp_send_404(req);
+		return ESP_FAIL;
+	}
+	Serial.println("\nreverseA_val " + String(reverseA_val)+" reverseB_val " + String(reverseB_val));
+    int motor1 = atoi(reverseA_val);
+	int motor2 = atoi(reverseB_val);
+
+    
+    bool reverseA=bool(reverseA_val);
+
+	//set motor values
+    appControl->setMotorDirection(0, motor1);
+    appControl->setMotorDirection(1, motor1);
+	*/
+    char* buf;
+    size_t buf_len;
+    char variable[32] = { 0, };
+    char value[32] = { 0, };
+
+    buf_len = httpd_req_get_url_query_len(req) + 1;
+    if (buf_len > 1) {
+        buf = (char*)malloc(buf_len);
+        if (!buf) {
+            httpd_resp_send_500(req);
+            return ESP_FAIL;
+        }
+        if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
+            if (httpd_query_key_value(buf, "var", variable, sizeof(variable)) == ESP_OK &&
+                httpd_query_key_value(buf, "val", value, sizeof(value)) == ESP_OK) {
+            }
+            else {
+                free(buf);
+                httpd_resp_send_404(req);
+                return ESP_FAIL;
+            }
+        }
+        else {
+            free(buf);
+            httpd_resp_send_404(req);
+            return ESP_FAIL;
+        }
+        free(buf);
+    }
+    else {
+        httpd_resp_send_404(req);
+        return ESP_FAIL;
+    }
+
+    int val = bool(atoi(value));
+    int res = 0;
+
+    if (!strcmp(variable, "reverseA"))     appControl->setMotorDirection(0, val);
+    else if (!strcmp(variable, "reverseB"))  appControl->setMotorDirection(1, val);
+      else { res = -1; }
+
+    if (res) { return httpd_resp_send_500(req); }
+
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+    return httpd_resp_send(req, NULL, 0);
+
+}
+
+static esp_err_t mpu_handler(httpd_req_t* req) {
+    char* buf;
+    size_t buf_len;
+    char axis_val[32] = { 0, };
+
+    buf_len = httpd_req_get_url_query_len(req) + 1;
+    if (buf_len > 1) {
+        buf = (char*)malloc(buf_len);
+        if (!buf) {
+            httpd_resp_send_500(req);
+            return ESP_FAIL;
+        }
+																									
+        if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
+            if (httpd_query_key_value(buf, "axis", axis_val, sizeof(axis_val)) == ESP_OK ){}
+          
+            else {         
+                free(buf);
+                httpd_resp_send_404(req);
+                return ESP_FAIL;
+            }
+        }
+        else {
+            free(buf);
+            httpd_resp_send_404(req);
+            return ESP_FAIL;
+        }
+        free(buf);
+    }
+    else {
+        httpd_resp_send_404(req);
+        return ESP_FAIL;
+    }
+    Serial.println("\naxis: "+String(axis_val));
     int res = 0;
 
     //set PID values
-    appControl->set_tiltAxle(size_t(atoi(axis)));
+    appControl->set_tiltAxle(size_t(atoi(axis_val)));
            											
     if (res) {return httpd_resp_send_500(req);}
 
@@ -783,14 +935,20 @@ void startCameraServer(Control* control) {
         .handler = PID_handler,
         .user_ctx = NULL
     };
-
+    
     httpd_uri_t mpu_uri = {
        .uri = "/mpu",
        .method = HTTP_GET,
        .handler = mpu_handler,
        .user_ctx = NULL
     };
-
+	
+    httpd_uri_t motors_uri = {
+       .uri = "/motors",
+       .method = HTTP_GET,
+       .handler = motors_handler,
+       .user_ctx = NULL
+    };
     httpd_uri_t motorsCmd_uri = {
        .uri = "/motorsControl",
        .method = HTTP_GET,
@@ -837,6 +995,7 @@ void startCameraServer(Control* control) {
         httpd_register_uri_handler(camera_httpd, &cmd_uri);
         httpd_register_uri_handler(camera_httpd, &pid_uri);
         httpd_register_uri_handler(camera_httpd, &mpu_uri);
+		httpd_register_uri_handler(camera_httpd, &motors_uri);
         httpd_register_uri_handler(camera_httpd, &motorsCmd_uri);
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);

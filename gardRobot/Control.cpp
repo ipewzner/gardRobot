@@ -45,7 +45,7 @@ void Control::move(int rightValue, int leftValue) {
 	to get the value between -100 to 100
 	and then add or sub the balence point in marge of 30 degree	
 	*/
-	SetPoint = balencePoint + (rightValue - 50) * 2 * 0.3;
+	Setpoint = balencePoint + (rightValue - 50) * 2 * 0.3;
 	
 	
 	int turn = (leftValue-50);
@@ -54,9 +54,11 @@ void Control::move(int rightValue, int leftValue) {
 	motorB->move(constrain(Output - turn,-255,255));
 }
 
-void Control::setKp(double Kp) { this->Kp = Kp; }
-void Control::setKi(double Ki) { this->Ki = Ki; }
-void Control::setKd(double Kd) { this->Kd = Kd; }
+void Control::setKp(double Kp) { this->Kp = Kp; Serial.println("set Kp:"+String(Kp));}
+void Control::setKi(double Ki) { this->Ki = Ki; Serial.println("set Ki:" + String(Ki));}
+void Control::setKd(double Kd) { this->Kd = Kd; Serial.println("set Kd:" + String(Kd));}
+void Control::setPIDsetPoint(double setPoint) { this->Setpoint = setPoint; Serial.println("set setPoint:" + String(setPoint));
+}
 
 void Control::printKpid() {
 	Serial.println("Kp: " + String(Kp) + ", Ki: " + String(Ki) + ", Kd: " + String(Kd));
@@ -73,4 +75,21 @@ void Control::set_tiltAxle(size_t tiltAxle) {
 
 float Control::tiltAngle(){
 	return Input; // imu->get_Angle(tiltAxle);	//Input is from keepSteady()
+}
+void Control::setMotorDirection(size_t motor, bool direction) {
+	
+	switch (motor)
+	{
+	case 0:
+		motorA->setDirection(direction);
+		Serial.println("set a direction:" + String(direction));
+		break;
+	case 1:
+		motorB->setDirection(direction);
+		Serial.println("set b direction:" + String(direction));
+		break;
+	default:
+		break;
+	}
+	
 }

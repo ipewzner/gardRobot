@@ -30,7 +30,8 @@ public:
 	void setKp(double);
 	void setKi(double);
 	void setKd(double);
-	
+	void setPIDsetPoint(double);
+
 	void init();
 	void keepSteady();
 	void move(int, int);
@@ -38,6 +39,7 @@ public:
 	void printKpid();	
 	void set_tiltAxle(size_t);
 	float tiltAngle();
+	void setMotorDirection(size_t,bool);
 };
 #endif
 

@@ -22,6 +22,7 @@ class Motor{
 	void stop();
 	void move(int);
 	void init();
+	void setDirection(bool);
 };
 #endif
 

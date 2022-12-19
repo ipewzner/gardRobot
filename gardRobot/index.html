@@ -56,9 +56,8 @@
     }
 
     section.main {
-      background: #449b74;
+      background: #080808;
       display: flex;
-
       /* The image used 
       background-image: url("http://10.0.0.12:81/stream");
       height: 90vh;
@@ -433,24 +432,30 @@
     }
   </style>
 
-  <script>
-    //socket = new WebSocket("ws:/" + "/" + location.host + ":81");
+  <script>//socket
+    socket = new WebSocket("ws:/" + "/" + location.host + ":82");
     var chartT;
     let selctedAxis = 0;
     var socketConnected = false;
-    socket = new WebSocket("ws://10.0.0.11:82");
-    
+    //socket = new WebSocket("ws://10.0.0.11:82");
+
     socket.onclose = function () {
-        socketConnected = false;
+      socketConnected = false;
       console.log("Socket closed");
+      //try
+      socket.connect();
+
     };
     socket.onopen = function (e) {
-         socketConnected = true;
+      socketConnected = true;
       console.log("[socket] socket.onopen ");
     };
     socket.onerror = function (e) {
       console.log("[socket] socket.onerror ");
-          socketConnected = false; 
+      socketConnected = false;
+      //try
+      socket.connect();
+
     };
     socket.onmessage = function (e) {
       console.log("[socket] " + e.data);
@@ -458,24 +463,11 @@
       try {
         let msg = JSON.parse(e.data);
         var x = (new Date()).getTime();
-        var y=parseFloat(msg);
-
-        /*
-        if (selctedAxis == 0) { y = parseFloat(msg.mpu.gx); }
-        if (selctedAxis == 1) { y = parseFloat(msg.mpu.gy); }
-        if (selctedAxis == 2) { y = parseFloat(msg.mpu.gz); }
-*/
-        //console.log(this.responseText);
-        if (chartT.series[0].data.length > 40) {
-          chartT.series[0].addPoint([x, y], true, true, true);
-        } else {
-          chartT.series[0].addPoint([x, y], true, false, true);
-        }
-
+        var y = parseFloat(msg);
+        if (chartT.series[0].data.length >= 40) { chartT.series[0].addPoint([x, y], true, true, true); }
+        else { chartT.series[0].addPoint([x, y], true, false, true); }
       }
-      catch (e) {
-        console.log("err decripting json msg. err: " + e);
-      }
+      catch (e) { console.log("err decripting json msg. err: " + e); }
     };
   </script>
 
@@ -727,7 +719,7 @@
 
           <!-- PID Tuning -->
           <hr style="width:100%">
-          <label for="nav-toggle-pid" class="toggle-section-label">&#9776;&nbsp;&nbsp;PID Tuning</label>
+          <label for="nav-toggle-pid" class="toggle-section-label">&#9776;&nbsp;&nbsp;Motors & PID Tuning</label>
           <input type="checkbox" id="nav-toggle-pid" class="hidden toggle-section-button" checked="checked">
 
           <section class="toggle-section">
@@ -749,19 +741,46 @@
               </div>
             </div>
 
-            <div class="input-group" id="set-pid-group">
-              <label for="set-PID">coefficients</label>
-              <div class="text">
-                Kp:<input id="Kp" type="text" minlength="1" maxlength="7" size="2" value="0">
-              </div>
-              <div class="text">
-                Ki:<input id="Ki" type="text" minlength="1" maxlength="7" size="2" value="0">
-              </div>
-              <div class="text">
-                Kd:<input id="Kd" type="text" minlength="1" maxlength="7" size="2" value="0">
+
+            <div class="input-group" id="setPoint-group">
+              <label for="setPoint">setPoint</label>
+              <div class="range-min">-10</div>
+              <input type="range" id="setPoint" min="-10" max="10" value="0" step="0.1">
+              <div class="range-max">10</div>
+            </div>
+
+            <div class="input-group">
+              <label for="set_Kp_input">set Kp</label>
+              <input id="set_Kp_input" type="text" minlength="1" maxlength="7" size="2" value="0">
+              <button class="inline-button" id="set_Kp_button">Set</button>
+            </div>
+            <div class="input-group">
+              <label for="set_Ki_input">set Ki</label>
+              <input id="set_Ki_input" type="text" minlength="1" maxlength="7" size="2" value="0">
+              <button class="inline-button" id="set_Ki_button">Set</button>
+            </div>
+            <div class="input-group">
+              <label for="set_Kd_input">set Kd</label>
+              <input id="set_Kd_input" type="text" minlength="1" maxlength="7" size="2" value="0">
+              <button class="inline-button" id="set_Kd_button">Set</button>
+            </div>
+
+            <div class="input-group" id="reverse-motor_A_group">
+              <label for="reverse_motor_A">Reverse motor A</label>
+              <div class="switch">
+                <input id="reverse_motor_A" type="checkbox">
+                <label class="slider" for="reverse_motor_A"></label>
               </div>
             </div>
-            <button class="inline-button" id="set-PID">Set PID</button>
+            <div class="input-group" id="reverse_motor_B-group">
+              <label for="reverse_motor_B">Reverse motor B</label>
+              <div class="switch">
+                <input id="reverse_motor_B" type="checkbox">
+                <label class="slider" for="reverse_motor_B"></label>
+              </div>
+            </div>
+
+
 
           </section>
 
@@ -870,9 +889,6 @@
             </div>
             <button id="set-resolution">Set Resolution</button>
           </section>
-
-
-
         </nav>
       </div>
 
@@ -884,48 +900,6 @@
         </div>
       </figure>
 
-      <!--joystick button's
-              <button id="up" class="button">UP</button>
-              <div>
-                <button id="left" class="button">LEFT</button>
-                <button id="right" class="button">RIGHT</button>
-              </div>    
-              <button id="down" class="button">DOWN</button>
-            -->
-      <!--
-            <div id="joystick" style="width:50%">
-        <svg width="100%" height="100%" viewBox="0 0 100 100">
-          <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:rgb(16,16,16);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:rgb(240,240,240);stop-opacity:1" />
-            </linearGradient>
-            <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:rgb(240,240,240);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:rgb(16,16,16);stop-opacity:1" />
-            </linearGradient>
-            <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:rgb(168,168,168);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:rgb(239,239,239);stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="50" r="50" fill="url(#grad1)" />
-          <circle cx="50" cy="50" r="47" fill="url(#grad2)" stroke="black" stroke-width="1.5px" />
-          <circle cx="50" cy="50" r="44" fill="url(#grad3)" />
-          <circle id="centerButton" cx="50" cy="50" r="20" fill="#cccccc" stroke="black" stroke-width="1px" />
-        
-          <!--"alert('CENTER');" --@>
-          <path id="upButton" d="M50,14 54,22 46,22Z" fill="rgba(0,0,0,0.8)" />
-          <!--"alert('UP');" --@>
-          <path id="downButton" d="M50,86 54,78 46,78Z" fill="rgba(0,0,0,0.8)" />
-          <!--"alert('DOWN');" --@>
-          <path id="leftButton" d="M14,50 22,54 22,46Z" fill="rgba(0,0,0,0.8)" />
-          <!--"alert('LEFT');" --@>
-          <path id="rightButton" d="M86,50 78,54 78,46Z" fill="rgba(0,0,0,0.8)" />
-          <!--"alert('RIGHT');" --@>
-        </svg>
-      </div>
-      -->
       <div id="joystick" class="joystick">
         <div id="joystickDot" class="joystickDot">
         </div>
@@ -938,7 +912,6 @@
   </section>
 
   <script>//helper function
-
     const hide = el => {
       el.classList.add('hidden')
     }
@@ -947,21 +920,51 @@
     }
   </script>
 
-
-
   <script>
 
     document.addEventListener('DOMContentLoaded', function (event) {
-      // var baseHost = document.location.origin
-      var baseHost = "http://10.0.0.11"
-      var streamUrl = baseHost + ':81'
+      var baseHost = document.location.origin+ ':80'
+      //var baseHost = "http://10.0.0.11+ ':80'"
+      //var streamUrl = "http://10.0.0.11+ ':81'"
+      var streamUrl = document.location.origin + ':81'
+
+      //setPoint
+      const setPoint = document.getElementById('setPoint')
+      setPoint.onchange = () => {
+        console.log(setPoint.value)
+        const query = `${baseHost}/pid?var=${'setPoint'}&val=${setPoint.value}`
+        fetch(query)
+          .then(response => {
+            console.log(`request to ${query} finished, status: ${response.status}`)
+          })
+      }
+
+      //Reverse motors
+      const reverseMotorA = document.getElementById('reverse_motor_A')
+      const reverseMotorB = document.getElementById('reverse_motor_B')
+      reverseMotorA.onchange = () => {
+        const query = `${baseHost}/motors?var=${'reverseA'}&val=${reverseMotorA.checked ? 1 : 0}`
+        // const query = `${baseHost}/motors?reverseA=${reverseMotorA.checked}`
+        fetch(query)
+          .then(response => {
+            console.log(`request to ${query} finished, status: ${response.status}`)
+          })
+      }
+      reverseMotorB.onchange = () => {
+        const query = `${baseHost}/motors?var=reverseB&val=${reverseMotorB.checked ? 1 : 0}`
+
+        // const query = `${baseHost}/motors?reverseB=${reverseMotorB.checked}`
+        fetch(query)
+          .then(response => {
+            console.log(`request to ${query} finished, status: ${response.status}`)
+          })
+      }
 
       //PID chart
+      document.getElementById('Axis').onchange = () => {
 
-      document.getElementById('Axis').onchange = () => { 
-        
         selctedAxis = parseInt(document.getElementById('Axis').value);
-        
+
         const query = `${baseHost}/mpu?axis=${selctedAxis}`
 
         fetch(query)
@@ -969,9 +972,9 @@
             console.log(`request to ${query} finished, status: ${response.status}`)
           })
 
-       }
+      }
 
-        
+
       //  selctedAxis = parseInt(document.getElementById('Axis').value); }
       const chartTOpen = document.getElementById('Tilt-chart-open')
       const chartTilt = document.getElementById('Tilt-chart')
@@ -987,13 +990,13 @@
         plotOptions: {
           line: {
             animation: false,
-            dataLabels: { enabled: false }
+            dataLabels: { enabled: true }
           },
           series: { color: '#059e8a' }
         },
         xAxis: {
           type: 'datetime',
-          dateTimeLabelFormats: { second: '%H:%M:%S' }
+          dateTimeLabelFormats: { second: '%H:%M:%S.%L' }
         },
         yAxis: {
           title: { text: 'Tilt (dagree)' }
@@ -1011,8 +1014,8 @@
 
       var dot_h = joystickDot.offsetHeight;
       var dot_w = joystickDot.offsetWidth;
-      var old_pos= {x: 50,y: 50};
-      var last_time=new Date().getTime();
+      var old_pos = { x: 50, y: 50 };
+
       //Make the joystick element draggagle:
       dragElement(joystickDot);
 
@@ -1051,14 +1054,12 @@
           if (position.x > 49 && position.x < 51) { position.x = 50; }
           if (position.y > 49 && position.y < 51) { position.y = 50; }
 
-          if (old_pos.x == position.x && old_pos.y == position.y)  return 0;
-           
-          console.log(position);
-          console.log("33333top: " + elmnt.style.top + " left: " + elmnt.style.left);
+          //if not changed dont send
+          if (old_pos.x == position.x && old_pos.y == position.y) return 0;
 
-          
-          //dont send if not pass 100 ms
-          if (new Date().getTime() - last_time  < 100) return 0;
+          console.log(position);
+          console.log("top: " + elmnt.style.top + " left: " + elmnt.style.left);
+
 
           socket.send(position.x + "," + position.y);
           old_pos.x = position.x;
@@ -1125,48 +1126,69 @@
         fetchUrl(`${baseHost}/reg?reg=${reg}&mask=${mask}&val=${value}`, cb);
       }
 
+      //PID
+      const Kp_button = document.getElementById('set_Kp_button')
+      const Ki_button = document.getElementById('set_Ki_button')
+      const Kd_button = document.getElementById('set_Kd_button')
+      Kp_button.onclick = () => {
+        let Kp = parseFloat(document.getElementById('set_Kp_input').value);
+
+        const query = `${baseHost}/pid?var=Kp&val=${Kp}`
+        fetch(query)
+          .then(response => {
+            console.log(`request to ${query} finished, status: ${response.status}`)
+          })
+      }
+      Ki_button.onclick = () => {
+        let Ki = parseFloat(document.getElementById('set_Ki_input').value);
+
+        const query = `${baseHost}/pid?var=Ki&val=${Ki}`
+        fetch(query)
+          .then(response => {
+            console.log(`request to ${query} finished, status: ${response.status}`)
+          })
+      }
+      Kd_button.onclick = () => {
+        let Kd = parseFloat(document.getElementById('set_Kd_input').value);
+
+        const query = `${baseHost}/pid?var=Kd&val=${Kd}`
+        fetch(query)
+          .then(response => {
+            console.log(`request to ${query} finished, status: ${response.status}`)
+          })
+      }
 
       /*
-      const centerButton = document.getElementById('centerButton')
-      const upButton = document.getElementById('upButton')
-      const downButton = document.getElementById('downButton')
-      const leftButton = document.getElementById('leftButton')
-      const rightButton = document.getElementById('rightButton')
-
-      centerButton.onclick = () => { moveMotors(0, 0) };
-      upButton.onclick = () => { moveMotors(255, 255) };
-      downButton.onclick = () => { moveMotors(-255, -255) };
-      leftButton.onclick = () => { moveMotors(-255, 255) };
-      rightButton.onclick = () => { moveMotors(255, -255) };
-
-      upButton.onkeyup = () => { moveMotors(0, 0) };
-      downButton.onkeyup = () => { moveMotors(0, 0) };
-      leftButton.onkeyup = () => { moveMotors(0, 0) };
-      rightButton.onkeyup = () => { moveMotors(0, 0) };
-
-      function moveMotors(rightValue, leftValue) {
-
-        const query = `${baseHost}/motorsControl?right=${rightValue}&left=${leftValue}`
-
-        fetch(query)
-          .then(response => {
-            console.log(`request to ${query} finished, status: ${response.status}`)
-          })
-
-      }
-*/
-      
-      const setPidButton = document.getElementById('set-PID')
-      setPidButton.onclick = () => {
-        let Kp = parseFloat(document.getElementById('Kp').value);
-        let Ki = parseFloat(document.getElementById('Ki').value);
-        let Kd = parseFloat(document.getElementById('Kd').value);
-        const query = `${baseHost}/pid?Kp=${Kp}&Ki=${Ki}&Kd=${Kd}`
-        fetch(query)
-          .then(response => {
-            console.log(`request to ${query} finished, status: ${response.status}`)
-          })
-      }
+        setPidButton.onclick = () => {
+          let Kp = parseFloat(document.getElementById('set_Kd_input').value);
+          let Ki = parseFloat(document.getElementById('Ki').value);
+          let Kd = parseFloat(document.getElementById('Kd').value);
+          
+          //const query = `${baseHost}/pid?Kp=${Kp}&Ki=${Ki}&Kd=${Kd}`
+          //fetch(query)
+          //  .then(response => {
+          //    console.log(`request to ${query} finished, status: ${response.status}`)
+          //  })
+          
+  
+          const query = `${baseHost}/pid?var=${'Kp'}&val=${Kp}`
+          fetch(query)
+            .then(response => {
+              console.log(`request to ${query} finished, status: ${response.status}`)
+            })
+          query = `${baseHost}/pid?var=${'Ki'}&val=${Ki}`
+          fetch(query)
+            .then(response => {
+              console.log(`request to ${query} finished, status: ${response.status}`)
+            })
+          query = `${baseHost}/pid?var=${'Kd'}&val=${Kd}`
+          fetch(query)
+            .then(response => {
+              console.log(`request to ${query} finished, status: ${response.status}`)
+            })
+  
+        }
+        */
 
       function getReg(reg, offset, mask, cb) {
         mask = mask << offset;

@@ -24,6 +24,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebSockets-2.3.6", "Librari
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiFi-1.0", "Libraries\WiFi\1.0\WiFi\WiFi-1.0.vcxitems", "{BA52DA93-D83C-4D0A-979E-A4F8106023F0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoJson-6.19.4", "Libraries\ArduinoJson\6.19.4\ArduinoJson\ArduinoJson-6.19.4.vcxitems", "{67EE7AF1-9BED-42AF-A887-08DD38E55C23}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiFiManager-2.0.14-beta", "Libraries\WiFiManager\2.0.14-beta\WiFiManager\WiFiManager-2.0.14-beta.vcxitems", "{4582B0B8-A50C-40B8-B5B7-A29E333A4FCC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FS-1.0", "Libraries\FS\1.0\FS\FS-1.0.vcxitems", "{DE5D5F48-9A10-4A99-BC3B-ADE12F4C4A60}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPIFFS-1.0", "Libraries\SPIFFS\1.0\SPIFFS\SPIFFS-1.0.vcxitems", "{38BE917D-9418-44DA-B2BB-F2DCF1811060}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESPmDNS-1.0", "Libraries\ESPmDNS\1.0\ESPmDNS\ESPmDNS-1.0.vcxitems", "{FA33C8F3-FCAC-4D5B-8B90-8B848CD68C36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -42,17 +52,27 @@ Global
 		SolutionGuid = {B76430C2-D26E-40CA-BF0F-B748CFF87698}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\SPIFFS\1.0\SPIFFS\SPIFFS-1.0.vcxitems*{38be917d-9418-44da-b2bb-f2dcf1811060}*SharedItemsImports = 9
+		Libraries\WiFiManager\2.0.14-beta\WiFiManager\WiFiManager-2.0.14-beta.vcxitems*{4582b0b8-a50c-40b8-b5b7-a29e333a4fcc}*SharedItemsImports = 9
 		Libraries\Wire\1.0.1\Wire\Wire-1.0.1.vcxitems*{5d08d4cb-2c8c-4961-888a-8be85ebb6060}*SharedItemsImports = 9
 		Libraries\ESP32\1.0\ESP32\ESP32-1.0.vcxitems*{6305a1e1-20b2-4fb4-9acb-290593c51468}*SharedItemsImports = 9
+		Libraries\ArduinoJson\6.19.4\ArduinoJson\ArduinoJson-6.19.4.vcxitems*{67ee7af1-9bed-42af-a887-08dd38e55c23}*SharedItemsImports = 9
 		Libraries\I2Cdev\0.0.0\I2Cdev\I2Cdev-0.0.0.vcxitems*{8a833e5b-5002-4862-985e-b0175b5284c9}*SharedItemsImports = 9
 		Libraries\WiFi\1.0\WiFi\WiFi-1.0.vcxitems*{ba52da93-d83c-4d0a-979e-a4f8106023f0}*SharedItemsImports = 9
 		Libraries\WebSockets\2.3.6\WebSockets\WebSockets-2.3.6.vcxitems*{c4541520-8b35-4ff0-95e2-9739d7a2a375}*SharedItemsImports = 9
+		Libraries\ArduinoJson\6.19.4\ArduinoJson\ArduinoJson-6.19.4.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\ESP32\1.0\ESP32\ESP32-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\ESPmDNS\1.0\ESPmDNS\ESPmDNS-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\FS\1.0\FS\FS-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\MPU6050\0.0.0\MPU6050\MPU6050-0.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\SPIFFS\1.0\SPIFFS\SPIFFS-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\WebSockets\2.3.6\WebSockets\WebSockets-2.3.6.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\WiFiManager\2.0.14-beta\WiFiManager\WiFiManager-2.0.14-beta.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\WiFi\1.0\WiFi\WiFi-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\Wire\1.0.1\Wire\Wire-1.0.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\MPU6050\0.0.0\MPU6050\MPU6050-0.0.0.vcxitems*{d0078290-587f-46e7-8ab8-958c6012e6d2}*SharedItemsImports = 9
+		Libraries\FS\1.0\FS\FS-1.0.vcxitems*{de5d5f48-9a10-4a99-bc3b-ade12f4c4a60}*SharedItemsImports = 9
 		Libraries\PID\1.2.0\PID\PID-1.2.0.vcxitems*{e914ead3-1a93-419a-8aee-964122257691}*SharedItemsImports = 9
+		Libraries\ESPmDNS\1.0\ESPmDNS\ESPmDNS-1.0.vcxitems*{fa33c8f3-fcac-4d5b-8b90-8b848cd68c36}*SharedItemsImports = 9
 	EndGlobalSection
 EndGlobal

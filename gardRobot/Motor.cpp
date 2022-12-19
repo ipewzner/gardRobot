@@ -48,3 +48,7 @@ void Motor::move(int speed) {
     }    
 	
 }
+
+void Motor::setDirection(bool direction) {
+	this->reverse = direction;
+}
